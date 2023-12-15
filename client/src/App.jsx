@@ -7,7 +7,6 @@ import PhoneCard from '../components/PhoneCard/PhoneCard'
 import { Blocks } from 'react-loader-spinner'
 
 function App() {
-
   const [phone, setPhone] = useState()
 
   useEffect(() => {
@@ -15,45 +14,37 @@ function App() {
   }, [])
 
   const loadPhones = () => {
-
     phoneServices
 
       .getAllPhones()
       .then(({ data }) => {
-        console.log(data)
         setPhone(data)
       })
       .catch(error => console.log(error))
-
   }
 
-  return (
-    phone
-      ?
-      <Container>
-        <h1>The Phone Cave (WD)</h1>
-        <Row>
-          {
-            phone?.map(e => {
-              return (
-                <Col md={4}>
-                  <PhoneCard {...e} key={e.id} />
-                </Col>
-              )
-            })
-          }
-        </Row>
-
-      </Container>
-      :
-      <Blocks
-        visible={true}
-        height="80"
-        width="80"
-        ariaLabel="blocks-loading"
-        wrapperStyle={{}}
-        wrapperClass="blocks-wrapper"
-      />
+  return phone ? (
+    <Container>
+      <h1>The Phone Cave (WD)</h1>
+      <Row>
+        {phone?.map(e => {
+          return (
+            <Col md={4} key={e._id}>
+              <PhoneCard id={e.id} />
+            </Col>
+          )
+        })}
+      </Row>
+    </Container>
+  ) : (
+    <Blocks
+      visible={true}
+      height='80'
+      width='80'
+      ariaLabel='blocks-loading'
+      wrapperStyle={{}}
+      wrapperClass='blocks-wrapper'
+    />
   )
 }
 
